@@ -1,0 +1,11 @@
+%h1 Edit Roster
+
+= form_tag roster_path(@roster), :method => :patch do
+  - @players.positions.each do |position|
+    .position
+      %h2= "#{position}"
+      .players
+        - @players.where(:position => position).each do |player|
+          = check_box_tag "players[#{player.id}]", player.id, @roster.players.include?(player)
+          = player.name
+  = button_tag "Update"
