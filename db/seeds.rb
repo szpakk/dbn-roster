@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+regex = /^"(.+)",([A-Z]+)$/
+File.readlines("players.csv").each do |line|
+  player = line.match(regex)
+  Player.create!(:name => player[1], :position => player[2])
+end
