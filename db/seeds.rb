@@ -8,5 +8,9 @@
 regex = /^"(.+)",([A-Z]+)$/
 File.readlines("players.csv").each do |line|
   player = line.match(regex)
-  Player.create!(:name => player[1], :position => player[2])
+  begin
+    Player.create(:name => player[1], :position => player[2])
+  rescue ActiveRecord::RecordNotUnique
+    next
+  end
 end
