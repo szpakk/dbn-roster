@@ -1,0 +1,10 @@
+%h1 Roster
+
+- @roster.players.positions.each do |position|
+  .position
+    %h2= "#{position}"
+    .players
+      - @roster.players.where(:position => position).each do |player|
+        = player.name
+= link_to "Edit", edit_roster_path(@roster)
+= link_to "Delete", roster_path(@roster), :method => :delete
