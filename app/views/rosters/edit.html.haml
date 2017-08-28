@@ -5,7 +5,7 @@
     .position
       %h2= "#{position}"
       .players
-        - @players.where(:position => position).each do |player|
+        - @players.where(:position => position, :active => :true).each do |player|
           = check_box_tag "players[#{player.id}]", player.id, @roster.players.include?(player)
           = player.name
   = button_tag "Update"
