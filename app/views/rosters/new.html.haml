@@ -6,6 +6,6 @@
       %h2= "#{position}"
       .players
         - @players.where(:position => position).each do |player|
-          = check_box_tag "players"
+          = check_box_tag "players[#{player.id}]", player.id
           = player.name
   = button_tag "Save"
