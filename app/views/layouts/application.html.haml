@@ -1,0 +1,17 @@
+!!! 5
+%html
+  %head
+    %title DBN 53
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    - if !logged_in?
+      = link_to "Sign up", '/signup'
+      = link_to "Login",   '/login'
+    - else
+      = link_to "Logout",  '/logout', :method => :delete
+    - flash.each do |key, value|
+      = content_tag :div, value, class: "flash #{key}"
+    - flash.clear
+    = yield
