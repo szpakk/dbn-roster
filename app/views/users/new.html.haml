@@ -1,0 +1,7 @@
+%h1 Sign up
+= form_tag users_path, :method => :post do
+  Username
+  = text_field_tag :name
+  Password
+  = password_field_tag :password
+  = button_tag "Sign up"
