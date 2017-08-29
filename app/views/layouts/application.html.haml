@@ -1,7 +1,7 @@
 !!! 5
 %html
   %head
-    %title DBN 53
+    %title DBN 53-man Roster Challenge
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
@@ -11,6 +11,7 @@
       = link_to "Login",   '/login'
     - else
       = link_to "Logout",  '/logout', :method => :delete
+    %h1 DBN 53-MAN ROSTER CHALLENGE
     - flash.each do |key, value|
       = content_tag :div, value, class: "flash #{key}"
     - flash.clear

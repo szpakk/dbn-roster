@@ -1,9 +1,9 @@
-%h1 Edit Roster
+%h2 Edit Roster
 
 = form_tag roster_path(@roster), :method => :patch do
   - @players.positions.each do |position|
     .position
-      %h2= "#{position}"
+      %h3= "#{position}"
       .players
         - @players.where(:position => position, :active => :true).each do |player|
           = check_box_tag "players[#{player.id}]", player.id, @roster.players.include?(player)

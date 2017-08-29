@@ -1,9 +1,9 @@
-%h1 Create Roster
+%h2 Create Roster
 
 = form_tag rosters_path, :method => :post do
   - @players.positions.each do |position|
     .position
-      %h2= "#{position}"
+      %h3= "#{position}"
       .players
         - @players.where(:position => position, :active => :true).each do |player|
           = check_box_tag "players[#{player.id}]", player.id

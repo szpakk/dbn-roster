@@ -1,8 +1,8 @@
-%h1 Roster
+%h2= "#{@roster.user.name}'s roster projection"
 
 - @roster.players.positions.each do |position|
   .position
-    %h2= "#{position}"
+    %h3= "#{position}"
     .players
       - @roster.players.where(:position => position).each do |player|
         = player.name
