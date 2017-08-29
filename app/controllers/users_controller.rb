@@ -7,7 +7,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    User.create(:name => params[:name], :password => params[:password], :password_confirmation => params[:password])
+    @user = User.create(:name => params[:name], :password => params[:password], :password_confirmation => params[:password])
+    log_in @user
     redirect_to new_roster_path
   end
 
