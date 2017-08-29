@@ -1,0 +1,7 @@
+%h1 Login
+= form_for :session, url: login_path, method: :post do
+  Username
+  = text_field_tag :name
+  Password
+  = password_field_tag :password
+  = button_tag "Login"
