@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, except: [:new, :create]
+  before_action :logged_in_user, except: [:new, :create, :show]
 
   def index
     @users = User.all
@@ -9,9 +9,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(:name => params[:name], :password => params[:password], :password_confirmation => params[:password])
-    log_in @user
-    redirect_to new_roster_path
+    @user = User.new(:name => params[:name], :password => params[:password], :password_confirmation => params[:password])
+    if @user.save
+      log_in @user
+      redirect_to new_roster_path
+    else
+      flash[:warning] = @user.errors.full_messages.first
+      render 'new'
+    end
   end
 
   def destroy
