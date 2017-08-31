@@ -12,11 +12,15 @@ class RostersController < ApplicationController
   end
 
   def create
-    @roster = Roster.new
-    params[:players].each { |player| @roster.players << Player.find(player) }
-    @roster.user_id = session[:user_id]
-    @roster.save
-    redirect_to roster_path(@roster)
+    @roster = Roster.new(user_id: session[:user_id], final: params[:final])
+    params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
+    if @roster.save
+      flash[:notice] = "Roster succefully created"
+      redirect_to roster_path(@roster)
+    else
+      flash[:warning] = @roster.errors.full_messages.first
+      redirect_back(fallback_location: new_roster_path)
+    end
   end
 
   def show
@@ -31,7 +35,8 @@ class RostersController < ApplicationController
   def update
     @roster = Roster.find(params[:id])
     @roster.selections.delete_all
-    params[:players].each { |player| @roster.players << Player.find(player) }
+    params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
+    @roster.update_attribute(final: params[:final])
     @roster.save
     redirect_to roster_path(@roster)
   end

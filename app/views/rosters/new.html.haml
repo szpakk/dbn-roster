@@ -8,4 +8,7 @@
         - @players.where(:position => position, :active => :true).each do |player|
           = check_box_tag "players[#{player.id}]", player.id
           = player.name
+  - if admin?
+    Final?
+    = select_tag :final, options_for_select([true, false])
   = button_tag "Save"
