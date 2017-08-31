@@ -1,0 +1,4 @@
+%h1 Roster predictions
+- @rosters.each do |roster|
+  = link_to "#{roster.user.name}'s prediction", roster.user
+  
