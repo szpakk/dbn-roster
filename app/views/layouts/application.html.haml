@@ -6,6 +6,8 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
+    - if admin?
+      = link_to "Players", players_path
     - if !logged_in?
       = link_to "Sign up", '/signup'
       = link_to "Login",   '/login'
