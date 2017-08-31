@@ -6,6 +6,17 @@
     .players
       - @roster.players.where(:position => position).each do |player|
         = player.name
-- if @roster.user == current_user  
+- if @roster.user == current_user || admin?  
   = link_to "Edit", edit_roster_path(@roster)
   = link_to "Delete", roster_path(@roster), :method => :delete
+
+%h2= "Final roster"
+- unless @final_roster.nil?
+  - @final_roster.players.positions.each do |position|
+    .position
+      %h3= "#{position}"
+      .players
+        - @final_roster.players.where(:position => position).each do |player|
+          = player.name
+- else
+  TBA

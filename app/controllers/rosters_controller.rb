@@ -24,6 +24,7 @@ class RostersController < ApplicationController
   end
 
   def show
+    @final_roster = Roster.final_roster
     @roster = Roster.find_by(id: params[:id])
   end
 
@@ -36,7 +37,7 @@ class RostersController < ApplicationController
     @roster = Roster.find(params[:id])
     @roster.selections.delete_all
     params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
-    @roster.update_attribute(final: params[:final])
+    @roster.final = params[:final]
     @roster.save
     redirect_to roster_path(@roster)
   end
@@ -57,7 +58,7 @@ class RostersController < ApplicationController
 
   def proper_user
     roster = Roster.find_by(id: params[:id])
-    unless logged_in? && current_user == roster.user
+    unless logged_in? && (current_user == roster.user || admin?)
       flash[:danger] = "Access denied!"
       redirect_back(fallback_location: root_path)
     end

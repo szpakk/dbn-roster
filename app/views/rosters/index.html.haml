@@ -1,5 +1,5 @@
-%h1 Roster predictions
+%h1 Roster projections
 - @rosters.each do |roster|
-  - unless roster == Roster.final_roster
+  - if roster != Roster.final_roster || admin? 
     = link_to "#{roster.user.name}'s prediction", roster.user
   
