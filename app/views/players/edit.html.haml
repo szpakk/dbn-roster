@@ -1,0 +1,10 @@
+%h2 Edit Player
+= form_tag @player, method: :patch do
+  Name
+  = text_field_tag :name, @player.name
+  Position
+  = select_tag :position, options_for_select(Player.positions, @player.position)
+  Active
+  = select_tag :active, options_for_select([true, false], @player.active)
+  = button_tag "Save"
+= link_to "Back", players_path

@@ -1,0 +1,10 @@
+%h2 New Player
+= form_tag players_path, method: :post do
+  Name
+  = text_field_tag :name
+  Position
+  = select_tag :position, options_for_select(Player.positions)
+  Active
+  = select_tag :active, options_for_select([true, false])
+  = button_tag "Save"
+= link_to "Back", players_path
