@@ -6,15 +6,16 @@ class UsersController < ApplicationController
   end
 
   def new
+    @user = User.new
   end
 
   def create
-    @user = User.new(:name => params[:name], :password => params[:password], :password_confirmation => params[:password])
+    @user = User.new(user_params)
     if @user.save
       log_in @user
+      flash[:success] = "Sign up complete!"
       redirect_to new_roster_path
     else
-      flash[:warning] = @user.errors.full_messages.first
       render 'new'
     end
   end
