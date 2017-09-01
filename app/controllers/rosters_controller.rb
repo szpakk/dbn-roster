@@ -1,5 +1,7 @@
 class RostersController < ApplicationController
   before_action :proper_user, only: [:edit, :update, :destroy]
+  before_action :deadline, only: [:edit, :new, :update, :create]
+
   def new
     if !logged_in?
       flash[:danger] = "Please log in"
@@ -60,6 +62,14 @@ class RostersController < ApplicationController
     roster = Roster.find_by(id: params[:id])
     unless logged_in? && (current_user == roster.user || admin?)
       flash[:danger] = "Access denied!"
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def deadline
+    deadline = Time.new(2017,9,2)
+    if Time.now > deadline
+      flash[:danger] = "Roster creation/modification disabled"
       redirect_back(fallback_location: root_path)
     end
   end
