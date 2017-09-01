@@ -7,12 +7,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(name: params[:name])
-    if user && user.authenticate(params[:password])
+    user = User.find_by(name: params[:session][:name])
+    if user && user.authenticate(params[:session][:password])
       log_in user
+      flash[:success] = "Successfully logged in!"
       redirect_to user
     else
-      flash[:danger] = 'Invalid username/password combination'
+      flash[:danger] = "Invalid username or password!"
       render 'new'
     end
   end

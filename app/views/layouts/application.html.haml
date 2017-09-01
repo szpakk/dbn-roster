@@ -1,21 +1,16 @@
 !!! 5
 %html
   %head
-    %title DBN 53-man Roster Challenge
+    %title 53-DBN ROSTER
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = render 'layouts/shim'
   %body
-    = link_to "Rosters", rosters_path
-    - if admin?
-      = link_to "Players", players_path
-    - if !logged_in?
-      = link_to "Sign up", '/signup'
-      = link_to "Login",   '/login'
-    - else
-      = link_to "Logout",  '/logout', :method => :delete
-    %h1 DBN 53-MAN ROSTER CHALLENGE
-    - flash.each do |key, value|
-      = content_tag :div, value, class: "flash #{key}"
-    - flash.clear
-    = yield
+    = render 'layouts/header'
+    %div.container
+      - flash.each do |msg_type, msg|
+        = content_tag :div, msg, class: "alert alert-#{msg_type}"
+      - flash.clear
+      = yield
+      = render 'layouts/footer'

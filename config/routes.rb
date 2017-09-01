@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  get 'players/new'
-
-  get 'players/index'
+  get '/home',       to: 'static_pages#home'
 
   resources :users
   resources :rosters
@@ -11,5 +9,5 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  root to: 'rosters#index'
+  root to: 'static_pages#home'
 end

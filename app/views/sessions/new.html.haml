@@ -1,7 +1,13 @@
-%h1 Login
-= form_for :session, url: login_path, method: :post do
-  Username
-  = text_field_tag :name
-  Password
-  = password_field_tag :password
-  = button_tag "Login"
+%h1 Log in
+
+%div.row
+  %div.col-md-6.col-md-offset-3
+    = form_for :session do |f|
+    
+      = f.label :name
+      = f.text_field :name
+
+      = f.label :password
+      = f.password_field :password
+
+      = f.submit "Log in", class: "btn btn-orange"
