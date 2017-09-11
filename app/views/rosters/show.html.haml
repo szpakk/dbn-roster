@@ -1,24 +1,49 @@
-%h2= "#{@roster.user.name}'s roster projection"
+.roster-container
+  .row.rosters
+    .roster
+      %h2= "#{@roster.user.name}'s roster projection"
+    .roster
+      %h2= "Final roster"
+  - @roster.players.positions.each do |position|
+    .row.rosters
+      .roster
+        .position-container 
+          .col-position.center
+            #{position}
+          .players-container.center
+            - @roster.players.where(:position => position, :active => :true).order(:name).each do |player|
+              .player{:class => (!@final_roster.nil? && (@final_roster.players.include?(player) ? 'bg-success' : 'bg-danger'))}= player.name
+      .roster
+        .position-container 
+          .col-position.center
+            #{position}
+          .players-container.center
+            - unless @final_roster.nil? 
+              - @final_roster.players.where(:position => position, :active => :true).order(:name).each do |player|
+                .player{:class => ('bg-warning' unless @roster.players.include?(player))}= player.name
+            - else
+              .tba
+                TBA
 
-- @roster.players.positions.each do |position|
-  .position
-    %h3= "#{position}"
-    .players
-      - @roster.players.where(:position => position).each do |player|
-        = player.name
-- if @roster.user == current_user || admin?  
-  = link_to "Edit", edit_roster_path(@roster)
-  = link_to "Delete", roster_path(@roster), :method => :delete
 
-%h2= "Final roster"
-- unless @final_roster.nil?
-  - @final_roster.players.positions.each do |position|
-    .position
-      %h3= "#{position}"
-      .players
-        - @final_roster.players.where(:position => position).each do |player|
-          = player.name
+- if (@final_roster.nil?  || admin?) && @roster.user == current_user
+  .options
+    = link_to "Edit", edit_roster_path(@roster), class: "btn btn-roster btn-orange"
+    = link_to "Delete", roster_path(@roster), class: "btn btn-roster btn-orange", :method => :delete
 - else
-  TBA
+  %p.legend-title Legend:
+  .legend
+    .legend-row
+      .info.bg-success
+        Players correctly predicted
+      .info.bg-danger
+        Players incorrectly predicted
+      .info.bg-warning
+        Players not predicted
+  .result
+    .prediction Prediction success:
+    .percentage #{number_to_percentage(@roster.result, precision: 2)}
 
-%div= "Your result: #{number_to_percentage(@roster.result, precision: 2)}"
+.center
+  %p= link_to "Back to rosters", rosters_path, class: "center"
+

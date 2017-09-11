@@ -1,14 +1,13 @@
-%header.navbar.navbar-fixed-top.navbar-brown.navbar-inverse
+%header.navbar.navbar-fixed-top.navbar-brown.navbar-brown
   %div.container
     = link_to "53-DBN ROSTER", root_path, id: "logo"
     %nav
       %ul.nav.navbar-nav.navbar-right
-        %li= link_to "Home",   root_path
         %li= link_to "Rosters", rosters_path
         - if admin?
           %li= link_to "Players", players_path
         - if !logged_in?
-          %li= link_to "Sign up", signup_path
           %li= link_to "Log in",   login_path
+          %li= link_to "Sign up", signup_path
         - else
           %li= link_to "Logout",  logout_path, :method => :delete

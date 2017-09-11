@@ -12,10 +12,10 @@ class PlayersController < ApplicationController
     @player = Player.find_by(id: params[:id])
     @player.attributes = player_params
     if @player.save
-      flash[:notice] = "Player succesfully updated"
+      flash[:success] = "Player succesfully updated"
       redirect_to players_path
     else
-      flash[:warning] = @player.errors.full_messages.first
+      flash[:danger] = @player.errors.full_messages.first
       render 'edit'
     end
 
@@ -24,10 +24,10 @@ class PlayersController < ApplicationController
   def create
     @player = Player.new(name: params[:name], position: params[:position], active: params[:active])
     if @player.save
-      flash[:notice] = "Player succesfully created"
+      flash[:success] = "Player succesfully created"
       redirect_to players_path
     else
-      flash[:warning] = @player.errors.full_messages.first
+      flash[:danger] = @player.errors.full_messages.first
       render 'new'
     end
   end
@@ -39,7 +39,7 @@ class PlayersController < ApplicationController
   def destroy
     @player = Player.find_by(id: params[:id])
     @player.destroy
-    flash[:notice] = "Player succesfully deleted"
+    flash[:success] = "Player succesfully deleted"
     redirect_to players_path
   end
 

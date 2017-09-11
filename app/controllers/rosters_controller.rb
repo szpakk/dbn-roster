@@ -17,7 +17,7 @@ class RostersController < ApplicationController
     @roster = Roster.new(user_id: session[:user_id], final: params[:final])
     params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
     if @roster.save
-      flash[:notice] = "Roster succefully created"
+      flash[:success] = "Roster succefully created"
       redirect_to roster_path(@roster)
     else
       flash[:warning] = @roster.errors.full_messages.first
@@ -47,6 +47,7 @@ class RostersController < ApplicationController
   def index
     admin = User.find_by(:admin => true)
     @rosters = Roster.where.not(:user_id => admin.id)
+    @rosters = @rosters.sort_by { |roster| -roster.result }
   end
 
   def destroy
@@ -67,7 +68,7 @@ class RostersController < ApplicationController
   end
 
   def deadline
-    deadline = Time.new(2017,9,2)
+    deadline = Time.new(2018,9,2)
     if Time.now > deadline
       flash[:danger] = "Roster creation/modification disabled"
       redirect_back(fallback_location: root_path)

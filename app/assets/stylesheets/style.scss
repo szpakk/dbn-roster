@@ -4,6 +4,8 @@
 /* mixins, variables, etc. */
 
 $gray-medium-light: #eaeaea;
+$cleveland-brown: #382f2d; // official Cleveland Browns brown hex color code
+$cleveland-orange: #eb3300; // official Cleveland Browns orange hex color code
 
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
@@ -29,6 +31,13 @@ textarea {
   resize: vertical;
 }
 
+a {
+  color: $cleveland-orange;
+  &:hover {
+    color: #EB1B00
+  }
+}
+
 .center {
   text-align: center;
   h1 {
@@ -42,6 +51,136 @@ textarea {
   }
 }
 
+.position-container {
+  margin-top: 10px;
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.col-position {
+  width: 100%;
+  display: block;
+  flex-wrap: nowrap;
+  color: $cleveland-orange;
+  font-weight: bold;
+  border-bottom: 1px solid $cleveland-brown;
+}
+
+.col-player {
+  min-width: 170px;
+  display: inline-block;
+  flex-wrap: wrap;
+  input {
+    width: auto;
+    margin-left: 0 !important;
+  }
+
+}
+
+.btn-roster {
+  width: 170px;
+}
+
+.roster-container {
+  display: table;
+  width: 100%;
+}
+
+.rosters {
+  display: table-row;
+  width: 100%;
+}
+
+.roster {
+  display: table-cell;
+  width: 50%;
+  padding: 1%;
+  flex-wrap: wrap;
+  h2 {
+    margin-bottom: 10px;
+  }
+}
+
+
+.player {
+  display: inline-block;
+  padding: 1% 0 1% 0;
+  margin-top: 1%;
+  width: 100%;
+  max-width: 170px;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.players-container {
+  margin-bottom: 10px;
+}
+
+.tba {
+  vertical-align: middle;
+  color: $gray-light;
+  padding-top: 2%;
+}
+
+
+.legend {
+  display: table;
+  width: 100%;
+  padding: 1%
+}
+
+.legend-row {
+  display: table-row;
+  width: 100%;
+}
+
+.legend-title{
+  margin: 0 auto;
+  font-weight: bold;
+  text-align: center;
+}
+
+.info {
+  display: table-cell;
+  text-align: center;
+  width: calc(100%/3);
+  padding: 1%;
+  border-radius: 3px;
+  vertical-align: middle;  
+}
+
+.result {
+  text-align: center;
+  padding: 4%;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+.prediction {
+  font-size: 2em;
+  color: $cleveland-brown;
+}
+
+.percentage {
+  font-size: 3em;
+  color: $cleveland-orange;
+}
+
+.options {
+  a {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+  }
+}
+
+ td {
+  a {
+    margin-bottom: 1px !important;
+  }
+ }
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -53,6 +192,7 @@ h1 {
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
+  color: $cleveland-brown;
 }
 
 h2 {
@@ -61,7 +201,7 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: $gray-light;
+  color: $cleveland-orange;
 }
 
 p {
@@ -83,6 +223,19 @@ p {
   &:hover {
     color: white;
     text-decoration: none;
+  }
+}
+
+.navbar-brown {
+  background-color: $cleveland-brown;
+  a {
+    color: white;
+    &:hover, &:focus, &:active {
+      background-color: $cleveland-brown !important;
+      text-decoration: none;
+      color: #cacaca;
+
+    }
   }
 }
 
@@ -123,12 +276,19 @@ input {
   }
 }
 
+.form-check {
+  input {
+    width: auto;
+  }
+}
 /* button */
 
+// generated at http://blog.koalite.com/bbg/
+
 .btn-orange { 
-  color: #FFFFFF; 
-  background-color: #FF6F00; 
-  border-color: #FF5900; 
+  color: #ffffff; 
+  background-color: #EB3300; 
+  border-color: #EB1B00; 
 } 
  
 .btn-orange:hover, 
@@ -136,9 +296,9 @@ input {
 .btn-orange:active, 
 .btn-orange.active, 
 .open .dropdown-toggle.btn-orange { 
-  color: #FFFFFF; 
-  background-color: #FF5900; 
-  border-color: #FF5900; 
+  color: #ffffff; 
+  background-color: #EB1B00; 
+  border-color: #EB1B00; 
 } 
  
 .btn-orange:active, 
@@ -162,11 +322,11 @@ fieldset[disabled] .btn-orange:active,
 .btn-orange.disabled.active, 
 .btn-orange[disabled].active, 
 fieldset[disabled] .btn-orange.active { 
-  background-color: #FF6F00; 
-  border-color: #FF5900; 
+  background-color: #EB3300; 
+  border-color: #EB1B00; 
 } 
  
 .btn-orange .badge { 
-  color: #FF6F00; 
-  background-color: #FFFFFF; 
+  color: #EB3300; 
+  background-color: #ffffff; 
 }

@@ -1,14 +1,21 @@
 %h2 Create Roster
 
-= form_tag rosters_path, :method => :post do
-  - @players.positions.each do |position|
-    .position
-      %h3= "#{position}"
-      .players
-        - @players.where(:position => position, :active => :true).each do |player|
-          = check_box_tag "players[#{player.id}]", player.id
-          = player.name
-  - if admin?
-    Final?
-    = select_tag :final, options_for_select([true, false])
-  = button_tag "Save"
+.row
+  = form_tag rosters_path, :method => :post do
+    - @players.positions.each do |position|
+      .position-container 
+        .col-position.center
+          #{position}
+        .players-container
+          - @players.where(:position => position, :active => :true).order(:name).each do |player|
+            .col-player
+              .checkbox
+                = check_box_tag "players[#{player.id}]", player.id
+                %label{for: "players_#{player.id}"}= player.name       
+    .center
+      - if admin?
+        .form-check
+          %label{for: "final"} Final roster 
+          = check_box_tag "final", true
+      = button_tag "Save", class: "btn btn-roster btn-orange"
+

@@ -1,7 +1,21 @@
 %h2 Players
-- @players.each_with_index do |player, index|
-  %div.player
-    = "#{index + 1}. #{player.name}, #{player.position}, #{player.active}"
-    = link_to "Edit", edit_player_path(player)
-    = link_to "Delete", player_path(player), :method => :delete  
-= link_to "New", new_player_path
+%table.table.table-condensed.table-bordered.table-responsive
+  %thead
+    %tr
+      %th #
+      %th Name
+      %th Pos.
+      %th.center Status
+      %th.center Actions
+  %tbody
+    - @players.each_with_index do |player, index|
+      %tr
+        %td= "#{index + 1}."
+        %td= player.name
+        %td= player.position
+        %td.center= player.active ? "Active" : "Inactive"
+        %td.center
+          = link_to "Edit", edit_player_path(player), class: "btn btn-orange"
+          = link_to "Delete", player_path(player), class: "btn btn-orange", :method => :delete
+    %tr
+      %td.center{colspan: 5}= link_to "Add player", new_player_path, class: "btn btn-roster btn-orange"

@@ -13,11 +13,13 @@ class Roster < ApplicationRecord
   def result
     return 0.0 if Roster.final_roster.nil?
     count = 0.0
+    final_roster_size = Roster.final_roster.players.size / 100.0
+    roster_size = self.players.size / 100.0
     self.players.each { |player| count += 1 if Roster.final_roster.players.include?(player) }
-    count / 0.53
+    result = roster_size < final_roster_size ? count / final_roster_size : count / roster_size
   end
 
   def is_there_final?
-    errors.add(:rosters, 'Final roster exists') unless final == false || Roster.final_roster.nil?
+    errors.add(:final, 'roster exists') if final == true && !Roster.final_roster.nil?
   end
 end
