@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, except: [:new, :create, :show]
+  before_action :logged_in_admin, except: [:new, :create, :show]
 
   def index
     @users = User.all
@@ -22,16 +22,32 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    if @user.destroy
+      flash[:success] = "User deleted succesfully"
+    else
+      flash[:warning] = "Something went wrong"
+    end
+    redirect_to users_path
   end
 
   def show
+    @user = User.find_by(id: params[:id])
+    redirect_to root_path unless @user == current_user
+  end
+
+  def edit
+    @user = User.find_by(id: params[:id])
+  end
+
+  def update
     user = User.find_by(id: params[:id])
-    roster = Roster.find_by(:user_id => user.id) if user
-    if roster.nil?
-      redirect_to new_roster_path
-    else 
-      redirect_to roster_path(roster)
+    if user == current_user || !admin?
+      flash[:danger] = "Access denied"
+      redirect_to edit_user_path(user)
+    else
+      user.update_attribute(:admin, params[:admin])
+      flash[:success] = "succesfully updated user"
+      redirect_to users_path
     end
   end
 
@@ -46,5 +62,9 @@ class UsersController < ApplicationController
       flash[:danger] = "Please log in."
       redirect_to login_url
     end
+  end
+
+  def logged_in_admin
+    redirect_to root_path unless admin?
   end
 end

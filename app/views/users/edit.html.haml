@@ -1,2 +1,10 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+%h1 Edit user
+
+.center
+  %h2= @user.name
+  = form_tag @user, method: :patch do
+    .form-check
+      %label{for: "admin"} Admin 
+      = check_box_tag "admin", true, @user.admin
+    = button_tag "Save", class: "btn btn-orange"
+  = link_to "Back", users_path

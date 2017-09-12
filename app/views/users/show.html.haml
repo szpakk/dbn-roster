@@ -1,0 +1,12 @@
+%h1 My profile
+
+%h2= @user.name
+
+.center
+  - unless @user.roster.nil?
+    %p
+      Prediction correctness:
+      = Roster.final_roster.nil? ? "N/A" : number_to_percentage(@user.roster.result, precision: 2)
+    = link_to "See your roster", roster_path(@user.roster), class: "btn btn-lg btn-orange"
+  - else
+    = link_to "Create roster", new_roster_path, class: "btn btn-lg btn-orange"
