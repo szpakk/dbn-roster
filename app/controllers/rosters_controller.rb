@@ -8,20 +8,24 @@ class RostersController < ApplicationController
       redirect_to login_path
     elsif !current_user.roster.nil?
       redirect_to current_user.roster
-    else 
+    else
+      @roster = Roster.new
+      session[:players].each { |player| @roster.players << Player.find(player) } if session[:players]
       @players = Player.all
     end
   end
 
   def create
     @roster = Roster.new(user_id: session[:user_id], final: params[:final])
+    @players = Player.all
     params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
     if @roster.save
       flash[:success] = "Roster succefully created"
       redirect_to roster_path(@roster)
     else
-      flash[:warning] = @roster.errors.full_messages.first
-      redirect_back(fallback_location: new_roster_path)
+      flash[:danger] = "Number of players must be between 1 and 53"
+      session[:players] = params[:players]
+      redirect_to new_roster_path
     end
   end
 
@@ -53,8 +57,13 @@ class RostersController < ApplicationController
   def destroy
     @roster = Roster.find(params[:id])
     @roster.selections.delete_all
-    @roster.delete
-    redirect_to new_roster_path
+    if @roster.delete
+      flash[:success] = "Roster successfully deleted"
+      redirect_to user_path(current_user)
+    else
+      flash[:danger] = "Unable to delete roster"
+      render roster_path(@roster)
+    end
   end
 
   private
