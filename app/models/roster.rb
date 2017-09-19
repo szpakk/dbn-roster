@@ -3,8 +3,8 @@ class Roster < ApplicationRecord
   has_many :players, :through => :selections
   belongs_to :user
 
-  validates :players, presence: true, length: { in: 1..53 }
   validate :is_there_final?
+  validate :player_limit
 
   def self.final_roster
     Roster.find_by(final: true)
@@ -21,5 +21,9 @@ class Roster < ApplicationRecord
 
   def is_there_final?
     errors.add(:final, 'roster exists') if final == true && !Roster.final_roster.nil?
+  end
+
+  def player_limit
+    errors.add(:players, 'number must be between 1 and 53') unless players.size.between?(1,53)
   end
 end
