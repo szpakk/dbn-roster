@@ -1,5 +1,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 /* mixins, variables, etc. */
 
@@ -240,6 +241,7 @@ p {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
+  font-family: "Montserrat";
   color: white;
   text-transform: uppercase;
   letter-spacing: -1px;
