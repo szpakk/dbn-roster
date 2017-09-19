@@ -1,7 +1,29 @@
-%header.navbar.navbar-fixed-top.navbar-brown.navbar-brown
-  %div.container
+-#
+  %header.navbar.navbar-fixed-top.navbar-brown.navbar-brown
+    %div.container
+      = link_to "53-DBN ROSTER", root_path, id: "logo"
+      %nav
+        %ul.nav.navbar-nav.navbar-right
+          %li= link_to "Projections", rosters_path
+          - if admin?
+            %li= link_to "Players", players_path
+            %li= link_to "Users", users_path
+          - if !logged_in?
+            %li= link_to "Login",   login_path
+            %li= link_to "Sign up", signup_path
+          - else
+            %li= link_to "Roster", new_roster_path
+            %li= link_to "Profile", user_path(current_user)
+            %li= link_to "Logout",  logout_path, :method => :delete
+
+%header.navbar.navbar-fixed-top.navbar-brown.navbar-brown{role: "navigation"}
+  .container
     = link_to "53-DBN ROSTER", root_path, id: "logo"
-    %nav
+    .navbar-header
+      %button.navbar-toggle.collapsed{:type => 'button', "data-toggle" => "collapse", "data-target" => "#bs-example-navbar-collapse-1"}
+        %span.sr-only Toggle navigation
+        %span.glyphicon.glyphicon-menu-hamburger
+    .collapse.navbar-collapse{id: "bs-example-navbar-collapse-1"}
       %ul.nav.navbar-nav.navbar-right
         %li= link_to "Projections", rosters_path
         - if admin?
@@ -14,3 +36,4 @@
           %li= link_to "Roster", new_roster_path
           %li= link_to "Profile", user_path(current_user)
           %li= link_to "Logout",  logout_path, :method => :delete
+
