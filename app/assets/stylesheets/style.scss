@@ -54,6 +54,10 @@ a {
   .divisor {
     margin-bottom: 0px;
   }
+
+  p {
+    font-size: 1.1em;
+  }
 }
 
 .position-container {
@@ -264,7 +268,7 @@ p {
     &:hover, &:focus, &:active {
       background-color: $cleveland-brown !important;
       text-decoration: none;
-      color: #cacaca;
+      color: #ffbd75;
     }
   }
 }
@@ -311,9 +315,24 @@ input {
     width: auto;
   }
 }
+
+/* table */
+
+.table-rosters{
+  counter-reset: rowNumber;
+  tr > td:first-child {
+    counter-increment: rowNumber;
+  }
+  tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+  }
+}
+
+
 /* button */
 
-// generated at http://blog.koalite.com/bbg/
+// generated from http://blog.koalite.com/bbg/
 
 .btn-orange { 
   color: #ffffff; 

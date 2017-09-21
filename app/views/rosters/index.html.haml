@@ -1,6 +1,6 @@
 %h1 Roster projections
 
-%table.table.table-responsive
+%table.table.table-responsive.table-rosters
   %thead
     %tr
       %th #
@@ -8,10 +8,10 @@
       %th Score
       %th Roster
   %tbody  
-    - @rosters.each_with_index do |roster, index|
-      - if roster != Roster.final_roster || admin? 
+    - @rosters.each do |roster|
+      - if (roster != Roster.final_roster) || admin? 
         %tr
-          %td= "#{index + 1}."
+          %td .
           %td= roster.user.name
           %td
             - if Roster.final_roster.nil?
