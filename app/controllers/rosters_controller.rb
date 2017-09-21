@@ -1,6 +1,7 @@
 class RostersController < ApplicationController
   before_action :proper_user, only: [:edit, :update, :destroy]
   before_action :deadline, only: [:edit, :new, :update, :create]
+  before_action :limit_players, only: [:update, :create]
 
   def new
     if !logged_in?
@@ -10,7 +11,6 @@ class RostersController < ApplicationController
       redirect_to current_user.roster
     else
       @roster = Roster.new
-      session[:players].each { |player| @roster.players << Player.find(player) } if session[:players]
       @players = Player.all
     end
   end
@@ -20,11 +20,10 @@ class RostersController < ApplicationController
     @players = Player.all
     params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
     if @roster.save
-      flash[:success] = "Roster succefully created"
+      flash[:success] = "Roster successfully created"
       redirect_to roster_path(@roster)
     else
-      flash[:danger] = "Number of players must be between 1 and 53"
-      session[:players] = params[:players]
+      flash[:danger] = "Unable to create roster"
       redirect_to new_roster_path
     end
   end
@@ -44,25 +43,28 @@ class RostersController < ApplicationController
     @roster.selections.delete_all
     params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
     @roster.final = params[:final]
-    @roster.save
-    redirect_to roster_path(@roster)
+    if @roster.save
+      flash[:success] = "Roster successfully updated"
+      redirect_to roster_path(@roster)
+    else
+      flash[:danger] = "Unable to update roster"
+      redirect_to edit_roster_path(@roster)
+    end
   end
 
   def index
-    admin = User.find_by(:admin => true)
-    @rosters = Roster.where.not(:user_id => admin.id)
+    @rosters = Roster.all
     @rosters = @rosters.sort_by { |roster| -roster.result }
   end
 
   def destroy
     @roster = Roster.find(params[:id])
-    @roster.selections.delete_all
-    if @roster.delete
+    if @roster.destroy
       flash[:success] = "Roster successfully deleted"
       redirect_to user_path(current_user)
     else
       flash[:danger] = "Unable to delete roster"
-      render roster_path(@roster)
+      redirect_to roster_path(@roster)
     end
   end
 
@@ -77,9 +79,16 @@ class RostersController < ApplicationController
   end
 
   def deadline
-    deadline = Time.new(2018,9,2)
+    deadline = Time.new(2018,9,2) # submission deadline example
     if Time.now > deadline
-      flash[:danger] = "Roster creation/modification disabled"
+      flash[:danger] = "Roster submission disabled"
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def limit_players
+    unless params[:players].keys.size.between?(1,53)
+      flash[:danger] = "Players number must be between 1 and 53"
       redirect_back(fallback_location: root_path)
     end
   end

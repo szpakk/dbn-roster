@@ -16,7 +16,7 @@ class PlayersController < ApplicationController
       redirect_to players_path
     else
       flash[:danger] = @player.errors.full_messages.first
-      render 'edit'
+      redirect_to edit_player_path(@player)
     end
 
   end
@@ -38,17 +38,15 @@ class PlayersController < ApplicationController
 
   def destroy
     @player = Player.find_by(id: params[:id])
-    @player.destroy
-    flash[:success] = "Player succesfully deleted"
+    if @player.destroy
+      flash[:success] = "Player succesfully deleted"
+    else
+      flash[:danger] = "Unable to destroy player"
+    end
     redirect_to players_path
   end
 
-  def logged_in_admin
-    unless logged_in? && current_user.admin?
-      flash[:danger] = "Access denied."
-      redirect_back(fallback_location: root_path)
-    end
-  end
+  private
 
   def player_params
     params.permit(:name, :position, :active)

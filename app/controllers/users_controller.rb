@@ -1,21 +1,29 @@
 class UsersController < ApplicationController
   before_action :logged_in_admin, except: [:new, :create, :show]
+  before_action :proper_user, only: [:show]
+
 
   def index
     @users = User.all
   end
 
   def new
-    @user = User.new
+    if logged_in?
+      flash[:warning] = "Already logged in"
+      redirect_to current_user
+    else
+      @user = User.new
+    end
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in @user
+      log_in(@user)
       flash[:success] = "Sign up complete!"
-      redirect_to new_roster_path
+      redirect_to @user
     else
+      flash[:danger] = "Unable to create user!"
       render 'new'
     end
   end
@@ -23,16 +31,14 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     if @user.destroy
-      flash[:success] = "User deleted succesfully"
+      flash[:success] = "User deleted successfully!"
     else
-      flash[:warning] = "Something went wrong"
+      flash[:warning] = "Unable to delete user!"
     end
     redirect_to users_path
   end
 
   def show
-    @user = User.find_by(id: params[:id])
-    redirect_to root_path unless @user == current_user
   end
 
   def edit
@@ -42,11 +48,11 @@ class UsersController < ApplicationController
   def update
     user = User.find_by(id: params[:id])
     if user == current_user || !admin?
-      flash[:danger] = "Access denied"
+      flash[:danger] = "Access denied!"
       redirect_to edit_user_path(user)
     else
       user.update_attribute(:admin, params[:admin])
-      flash[:success] = "succesfully updated user"
+      flash[:success] = "Successfully updated user!"
       redirect_to users_path
     end
   end
@@ -57,14 +63,11 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :password, :password_confirmation)
   end
 
-  def logged_in_user
-    unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_url
+  def proper_user
+    @user = User.find_by(id: params[:id])
+    unless @user == current_user
+      flash[:danger] = "Access denied!"
+      redirect_to root_path
     end
-  end
-
-  def logged_in_admin
-    redirect_to root_path unless admin?
   end
 end

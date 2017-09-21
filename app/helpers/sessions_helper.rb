@@ -19,4 +19,11 @@ module SessionsHelper
   def admin?
     logged_in? && current_user.admin
   end
+
+  def logged_in_admin
+    unless logged_in? && current_user.admin?
+      flash[:danger] = "Access denied."
+      redirect_back(fallback_location: root_path)
+    end
+  end
 end
