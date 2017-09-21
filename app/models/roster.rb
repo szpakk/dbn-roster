@@ -1,8 +1,7 @@
 class Roster < ApplicationRecord
-  has_many :selections
-  has_many :players, :through => :selections
+  has_many :selections, dependent: :destroy
+  has_many :players, through: :selections
   belongs_to :user
-
   validate :is_there_final?
   validate :player_limit
 
@@ -19,11 +18,13 @@ class Roster < ApplicationRecord
     result = roster_size < final_roster_size ? count / final_roster_size : count / roster_size
   end
 
+  private
+
   def is_there_final?
     errors.add(:final, 'roster exists') if final == true && !Roster.final_roster.nil?
   end
 
   def player_limit
-    errors.add(:players, 'number must be between 1 and 53') unless players.size.between?(1,53)
+    errors.add(:players, 'number must be between 1 and 53') unless players.size.between?(1,53) && selections.size.between?(1,53)
   end
 end
