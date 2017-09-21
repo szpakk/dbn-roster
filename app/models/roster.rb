@@ -1,5 +1,5 @@
 class Roster < ApplicationRecord
-  has_many :selections, dependent: :destroy
+  has_many :selections, dependent: :destroy, autosave: true
   has_many :players, through: :selections
   belongs_to :user
   validate :is_there_final?
@@ -25,6 +25,6 @@ class Roster < ApplicationRecord
   end
 
   def player_limit
-    errors.add(:players, 'number must be between 1 and 53') unless players.size.between?(1,53) && selections.size.between?(1,53)
+    errors.add(:players, 'number must be between 1 and 53') unless selections.select { |selection| !selection.marked_for_destruction? }.size.between?(1,53)
   end
 end

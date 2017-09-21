@@ -18,7 +18,7 @@ class RostersController < ApplicationController
   def create
     @roster = Roster.new(user_id: session[:user_id], final: params[:final])
     @players = Player.all
-    params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
+    params[:players].each { |player| @roster.selections.new(player_id: player) } unless params[:players].nil?
     if @roster.save
       flash[:success] = "Roster successfully created"
       redirect_to roster_path(@roster)
@@ -40,8 +40,8 @@ class RostersController < ApplicationController
 
   def update
     @roster = Roster.find(params[:id])
-    @roster.selections.delete_all
-    params[:players].each { |player| @roster.players << Player.find(player) } unless params[:players].nil?
+    @roster.selections.each { |selection| selection.mark_for_destruction }
+    params[:players].each { |player| @roster.selections.new(player_id: player) } unless params[:players].nil?
     @roster.final = params[:final]
     if @roster.save
       flash[:success] = "Roster successfully updated"
