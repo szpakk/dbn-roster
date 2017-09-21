@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_one :roster
 
+  private
+
   def password_validation
     errors.add(:password, "can't be identical to username") if password == name;
     errors.add(:password, "can't contain spaces") if password =~ /\s+/
