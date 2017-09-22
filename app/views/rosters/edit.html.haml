@@ -2,23 +2,4 @@
 
 .row
   = form_tag roster_path(@roster), :method => :patch do
-    - @players.positions.each do |position|
-      .position-container
-        .col-position.center
-          #{position}
-        .players-container
-          - @players.where(:position => position, :active => :true).order(:name).each do |player|
-            .col-player
-              .checkbox
-                = check_box_tag "players[#{player.id}]", player.id, @roster.players.include?(player)
-                %label{for: "players_#{player.id}"}= player.name       
-    .center
-      .players-info
-        .players-msg Number of selected players:
-        .num-selected
-      - if admin?
-        .form-check
-          %label{for: "final"} Final roster 
-          = check_box_tag "final", true, @roster.final
-      = button_tag "Save", class: "btn btn-roster btn-orange"
-      %p= link_to "Back", current_user
+    = render 'rosters/roster_form'

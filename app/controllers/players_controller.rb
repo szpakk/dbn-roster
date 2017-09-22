@@ -1,7 +1,8 @@
 class PlayersController < ApplicationController
   before_action :logged_in_admin
   
-  def new  
+  def new
+    @player = Player.new  
   end
 
   def edit

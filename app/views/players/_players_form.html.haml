@@ -1,0 +1,12 @@
+= label :name, "Name"
+= text_field_tag :name, @player.name
+
+= label :position, "Position"
+= select_tag :position, options_for_select(Player.positions, @player.position)
+
+= label :status, "Status"
+= select_tag :active, options_for_select([["Active",true], ["Inactive", false]], @player.active)
+
+= submit_tag "Save", class: "btn btn-orange"
+.center
+  %p= link_to "Back", players_path, class: "center"
