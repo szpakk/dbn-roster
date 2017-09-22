@@ -21,4 +21,5 @@
             N/A
         %td
           = link_to "Edit", edit_user_path(user), class: "btn btn-orange"
-          = link_to "Delete", user_path(user), class: "btn btn-orange",  method: :delete
+          = link_to "Delete", user_path(user), class: "btn btn-orange",  method: :delete,
+                                               data: { confirm: "Are you sure?" }

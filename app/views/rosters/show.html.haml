@@ -29,7 +29,8 @@
   - if (@final_roster.nil?  || admin?) && @roster.user == current_user
     .options
       = link_to "Edit", edit_roster_path(@roster), class: "btn btn-roster btn-orange"
-      = link_to "Delete", roster_path(@roster), class: "btn btn-roster btn-orange", :method => :delete
+      = link_to "Delete", roster_path(@roster), class: "btn btn-roster btn-orange", :method => :delete,
+                                                data: { confirm: "Are you sure?" } 
   - unless @final_roster.nil?
     .legend-title Legend
     .legend
