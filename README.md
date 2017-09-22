@@ -1,24 +1,12 @@
-# README
+# 53-DBN Roster App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Created for the Cleveland Browns fans community as a platform for making final roster predictions at the conclusion of preseason. Upon official final roster announcement predictions are ranked by how many roster spots were correctly predicted.
 
-Things you may want to cover:
+**09/22/17**
 
-* Ruby version
+App is in the early stages of development. You can find it operational at [dbn-roster.herokuapp.com](http://dbn-roster.herokuapp.com). Player database is out-of-date and final roster is not set since the 2017 NFL regular season has already started and therefore the first edition of 53-DBN Roster Challenge is now slated to take place before the 2018 season.
 
-* System dependencies
+**Installation**
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Run 'rails db:migrate' and 'rails db:seed' to populate database.
+2. In order to give first user admin privilages open rails console and set user's admin attribute to true (temporary solution).
